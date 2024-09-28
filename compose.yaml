@@ -2,9 +2,9 @@ services:
   mysql:
     image: 'mysql:latest'
     environment:
-      environment:
-        - 'DB_URL=${DB_URL}'
-        - 'DB_USERNAME=${DB_USERNAME}'
-        - 'DB_PASSWORD=${DB_PASSWORD}'
+      - 'MYSQL_DATABASE=mydatabase'
+      - 'MYSQL_PASSWORD=secret'
+      - 'MYSQL_ROOT_PASSWORD=verysecret'
+      - 'MYSQL_USER=myuser'
     ports:
-      - '3306:3306'
+      - '3306'
