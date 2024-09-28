@@ -6,5 +6,8 @@ services:
       - 'MYSQL_PASSWORD=secret'
       - 'MYSQL_ROOT_PASSWORD=verysecret'
       - 'MYSQL_USER=myuser'
+      - 'DB_URL=jdbc:mysql://mysql:3306/mydatabase'
+      - 'DB_USERNAME=myuser'
+      - 'DB_PASSWORD=secret'
     ports:
-      - '3306'
+      - '3306:3306'
