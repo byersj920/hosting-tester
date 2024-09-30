@@ -13,9 +13,11 @@ public class WebConfig {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/api/**")
-                        .allowedOrigins("http://localhost:3000")
-                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS");
+                registry.addMapping("/*") // Allow CORS for all paths
+                        .allowedOrigins("http://localhost:3000/", "https://struggles-hovel.netlify.app/") // Add your Netlify domain here
+                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                        .allowedHeaders("")
+                        .allowCredentials(true);
             }
         };
     }
