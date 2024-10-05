@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -39,27 +40,32 @@ public class CardController {
     }
 
     @PostMapping("/uploadCards")
-    public Integer uploadCardsToCube(@RequestParam ArrayList<Number> cardList, @RequestParam String username) {
-
+    public Integer uploadCardsToCube(@RequestParam List<Map<String, Integer>> cardList, @RequestParam String username) {
         Integer cardCounter = 0;
 
-        for (Number cardId : cardList) {
-            Optional<Card> optionalCard = cardRepository.findById(cardId.longValue());
+        for (Map<String, Integer> cardInfo : cardList) {
+            Long cardId = cardInfo.get("cardId").longValue();
+            Integer count = cardInfo.get("count");
 
+            Optional<Card> optionalCard = cardRepository.findById(cardId);
             if (optionalCard.isPresent()) {
                 Card card = optionalCard.get();
 
-                if (card.getNumberNeeded() > 0) {
-                    card.addUsername(username);
-                    card.setNumberNeeded(card.getNumberNeeded() - 1);
+                int numberToAdd = Math.min(count, card.getNumberNeeded());
+                if (numberToAdd > 0) {
+                    for (int i = 0; i < numberToAdd; i++) {
+                        card.addUsername(username);
+                        card.setNumberNeeded(card.getNumberNeeded() - 1);
+                        cardCounter++;
+                    }
                     cardRepository.save(card);
-                    cardCounter++;
                 }
             }
         }
 
         return cardCounter;
     }
+
 
     @PostMapping("/remove")
     public Card removeUsernameFromCard(@RequestParam Long cardId, @RequestParam String username) {
