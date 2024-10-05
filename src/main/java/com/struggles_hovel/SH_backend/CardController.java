@@ -3,6 +3,7 @@ package com.struggles_hovel.SH_backend;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,6 +36,29 @@ public class CardController {
         } else {
             throw new RuntimeException("Card not found");
         }
+    }
+
+    @PostMapping("/uploadCards")
+    public Integer uploadCardsToCube(@RequestParam ArrayList<Number> cardList, @RequestParam String username) {
+
+        Integer cardCounter = 0;
+
+        for (Number cardId : cardList) {
+            Optional<Card> optionalCard = cardRepository.findById(cardId.longValue());
+
+            if (optionalCard.isPresent()) {
+                Card card = optionalCard.get();
+
+                if (card.getNumberNeeded() > 0) {
+                    card.addUsername(username);
+                    card.setNumberNeeded(card.getNumberNeeded() - 1);
+                    cardRepository.save(card);
+                    cardCounter++;
+                }
+            }
+        }
+
+        return cardCounter;
     }
 
     @PostMapping("/remove")
