@@ -54,7 +54,8 @@ public class CardController {
                 Card card = optionalCard.get();
                 if (card.getNumberNeeded() > 0){
                     card.setNumberNeeded(card.getNumberNeeded()-count);
-                    cardCounter++;
+                    cardCounter+=count;
+                    cardRepository.save(card);
                 }
             }
         }
