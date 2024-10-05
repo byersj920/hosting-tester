@@ -40,7 +40,7 @@ public class CardController {
     }
 
     @PostMapping("/uploadCards")
-    public Integer uploadCardsToCube(@RequestParam List<Map<String, Integer>> cardList, @RequestParam String username) {
+    public Integer uploadCardsToCube(@RequestBody List<Map<String, Integer>> cardList, @RequestParam String username) {
         Integer cardCounter = 0;
 
         for (Map<String, Integer> cardInfo : cardList) {
