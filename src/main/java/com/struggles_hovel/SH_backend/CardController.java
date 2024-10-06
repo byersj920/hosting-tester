@@ -52,10 +52,13 @@ public class CardController {
             Optional<Card> optionalCard = cardRepository.findById(cardId);
             if (optionalCard.isPresent()) {
                 Card card = optionalCard.get();
-                if (card.getNumberNeeded() > 0){
+                if ((card.getNumberNeeded() - count) >= 0){
                     card.setNumberNeeded(card.getNumberNeeded()-count);
                     cardCounter+=count;
                     cardRepository.save(card);
+                } else if (card.getNumberNeeded() > 0){
+                    cardCounter+=card.getNumberNeeded();
+                    card.setNumberNeeded(0);
                 }
             }
         }
