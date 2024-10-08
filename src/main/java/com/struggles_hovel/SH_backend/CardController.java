@@ -26,6 +26,14 @@ public class CardController {
     }
 
 
+    @PostMapping("/addSet")
+    public String addSetOfCards(@RequestBody List<Card> cards) {
+        for (Card card : cards) {
+            cardRepository.save(card);
+        }
+        return "Cards uploaded successfully!";
+    }
+
 
     @PostMapping("/add")
     public Card addUsernameToCard(@RequestParam Long cardId, @RequestParam String username) {
